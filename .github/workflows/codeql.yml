@@ -50,7 +50,7 @@ jobs:
     #   uses: github/codeql-action/autobuild@v2
 
     - name: build
-      run: npm build
+      run: echo "The ${{ matrix.language }} build step"
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
 
