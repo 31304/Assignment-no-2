@@ -3,7 +3,7 @@ name: Documentation Deployment
 on:
   push:
     branches:
-      - main # Adjust branch name as needed
+      - main 
 
 jobs:
   build_and_deploy:
@@ -17,16 +17,16 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14' # Adjust Node.js version as needed
+          node-version: '14'
       
       - name: Install documentation generator
         run: npm install -g documentation
         
       - name: Generate documentation
-        run: documentation build --output docs 
-        
+        run: documentation build --output docs
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs # Adjust the directory where documentation is generated
+          publish_dir: ./public
