@@ -6,6 +6,7 @@
   "main": "run.js",
   "scripts": {
     "start": "node run.js",
+    "build": "echo 'No build step.'",
     "lint": "eslint ."
   },
   "dependencies": {
