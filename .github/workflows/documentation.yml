@@ -20,10 +20,10 @@ jobs:
           node-version: '14' # Adjust Node.js version as needed
       
       - name: Install documentation generator
-        run: npm install -g documentation # Install documentation generator (e.g., documentation.js)
+        run: npm install -g documentation
         
       - name: Generate documentation
-        run: documentation build --output docs # Replace with the command to generate documentation
+        run: documentation build --output docs 
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
