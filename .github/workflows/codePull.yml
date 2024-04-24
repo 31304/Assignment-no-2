@@ -3,7 +3,8 @@ name: Code Review
 on:
   pull_request:
     branches:
-      - master
+        - main
+        - master
 
 jobs:
   example_comment_pr:
@@ -23,18 +24,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  merge_pull_request:
-    permissions:
-      contents: write
-      pull-requests: write
-    runs-on: ubuntu-latest
-    name: Merge Pull Request
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Merge PR
-        uses: pullreminders/merge-me-action@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: squash
-          merge-message: "Merge pull request automatically"
+
