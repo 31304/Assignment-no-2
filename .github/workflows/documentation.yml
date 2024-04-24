@@ -1,0 +1,32 @@
+name: Documentation Deployment
+
+on:
+  push:
+    branches:
+      - main # Adjust branch name as needed
+
+jobs:
+  build_and_deploy:
+    name: Build and Deploy Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Adjust Node.js version as needed
+      
+      - name: Install documentation generator
+        run: npm install -g documentation # Install documentation generator (e.g., documentation.js)
+        
+      - name: Generate documentation
+        run: documentation build --output docs # Replace with the command to generate documentation
+        
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs # Adjust the directory where documentation is generated
