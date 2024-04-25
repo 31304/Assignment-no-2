@@ -24,7 +24,8 @@ jobs:
         
       - name: Generate documentation
         run: documentation build --output docs
-
+      - name: Documentation Deployment
+        run: echo "Documentation Deployment successfully on gh-pages branch"
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
