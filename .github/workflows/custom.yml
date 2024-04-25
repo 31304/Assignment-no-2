@@ -19,12 +19,13 @@ jobs:
         with:
           node-version: '14'
       
-      - name: Install dependencies
-        run: npm install
+      - name: Install git log parser
+        run: npm install --save-dev gitlog-parser
       
       - name: Generate Release Notes
-        run: npm run release-notes
-      
+        run: |
+          git log --pretty=format:"- %s [%h]" > RELEASE_NOTES.md
+
       # Additional steps to commit and push release notes to a designated location
       - name: Commit and push release notes
         run: |
