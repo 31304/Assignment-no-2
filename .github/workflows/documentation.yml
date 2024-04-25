@@ -30,6 +30,11 @@ jobs:
           echo "# Documentation" > documentation.md
           echo "This is the documentation for our project." >> documentation.md
       
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+      
       - name: Convert Markdown to DOCX
         run: |
           pandoc -o documentation.docx documentation.md
