@@ -27,8 +27,11 @@ jobs:
           git log --pretty=format:"- %s [%h]" > RELEASE_NOTES.md
 
       # Additional steps to commit and push release notes to a designated location
+      
       - name: Commit and push release notes
         run: |
+          git config --global user.email "samiirshad1103.com"
+          git config --global user.name "31304"
           git add RELEASE_NOTES.md
           git commit -m "Generate release notes"
           git push origin main
