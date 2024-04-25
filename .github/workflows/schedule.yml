@@ -18,3 +18,12 @@ jobs:
           node-version: '14'
       - name: Install dependencies
         run: npm install
+      - name : Make branch and generate pull request
+        run: |
+          git checkout -b update-dependencies
+          npm update
+          git add package.json package-lock.json
+          git commit -m "Update dependencies"
+          git push origin update-dependencies
+          gh pr create --title "Update dependencies" --body "This PR updates the dependencies" --base main --head update-dependencies
+        
