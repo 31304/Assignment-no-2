@@ -28,17 +28,24 @@ jobs:
           echo "" >> RELEASE_NOTES.md
           echo "## New Features" >> RELEASE_NOTES.md
           echo "- Added support for feature X" >> RELEASE_NOTES.md
-          echo "- Implemented feature Y" >> RELEASE_NOTES.md
+          echo "- Implemented feature X" >> RELEASE_NOTES.md
           echo "" >> RELEASE_NOTES.md
           echo "## Bug Fixes" >> RELEASE_NOTES.md
-          echo "- Fixed issue with feature Z" >> RELEASE_NOTES.md
+          echo "- Fixed issue with feature y" >> RELEASE_NOTES.md
 
-      # Additional steps to commit and push release notes to a designated location
-      
+      # Check if there are changes to commit
       - name: Check for changes
-        run: git status
+        id: check_changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "::set-output name=changes::true"
+          else
+            echo "::set-output name=changes::false"
+          fi
       
+      # Commit and push only if there are changes
       - name: Commit and push release notes
+        if: steps.check_changes.outputs.changes == 'true'
         run: |
           git config --global user.email "samiirshad1103.com"
           git config --global user.name "31304"
