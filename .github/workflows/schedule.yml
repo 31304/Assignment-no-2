@@ -2,7 +2,7 @@ name: Scheduled Tasks
 
 on:
   schedule:
-    - cron: '20 12 * * *' # 6:55 PM UTC
+    - cron: '30 12 * * *' # 6:55 PM UTC
 
 jobs:
   maintenance:
