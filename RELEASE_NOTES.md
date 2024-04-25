@@ -2,7 +2,7 @@
 
 ## New Features
 - Added support for feature X
-- Implemented feature Y
+- Implemented feature X
 
 ## Bug Fixes
-- Fixed issue with feature Z
+- Fixed issue with feature y
