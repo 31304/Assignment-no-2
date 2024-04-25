@@ -32,8 +32,6 @@ jobs:
           echo "" >> RELEASE_NOTES.md
           echo "## Bug Fixes" >> RELEASE_NOTES.md
           echo "- Fixed issue with feature y" >> RELEASE_NOTES.md
-
-      # Check if there are changes to commit
       - name: Check for changes
         id: check_changes
         run: |
@@ -43,7 +41,6 @@ jobs:
             echo "::set-output name=changes::false"
           fi
       
-      # Commit and push only if there are changes
       - name: Commit and push release notes
         if: steps.check_changes.outputs.changes == 'true'
         run: |
