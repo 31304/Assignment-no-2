@@ -32,17 +32,18 @@ jobs:
           echo "" >> RELEASE_NOTES.md
           echo "## Bug Fixes" >> RELEASE_NOTES.md
           echo "- Fixed issue with feature y" >> RELEASE_NOTES.md
+      
       - name: Check for changes
         id: check_changes
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
-            echo "::set-output name=changes::true"
+            echo "changes=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=changes::false"
+            echo "changes=false" >> $GITHUB_ENV
           fi
       
       - name: Commit and push release notes
-        if: steps.check_changes.outputs.changes == 'true'
+        if: env.check_changes == 'true'
         run: |
           git config --global user.email "samiirshad1103.com"
           git config --global user.name "31304"
