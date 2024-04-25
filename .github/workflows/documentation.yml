@@ -24,10 +24,22 @@ jobs:
         
       - name: Generate documentation
         run: documentation build --output docs
+      
+      - name: Create documentation file
+        run: |
+          echo "# Documentation" > documentation.md
+          echo "This is the documentation for our project." >> documentation.md
+      
+      - name: Convert Markdown to DOCX
+        run: |
+          pandoc -o documentation.docx documentation.md
+      
       - name: Documentation Deployment
         run: echo "Documentation Deployment successfully on gh-pages branch"
+      
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
+          keep_files: true
