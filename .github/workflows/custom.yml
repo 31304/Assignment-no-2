@@ -44,6 +44,7 @@ jobs:
       
       - name: Commit and push release notes
         if: env.check_changes == 'true'
+        
         run: |
           git config --global user.email "samiirshad1103.com"
           git config --global user.name "31304"
