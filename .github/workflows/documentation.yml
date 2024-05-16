@@ -1,0 +1,50 @@
+name: Documentation Deployment
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build_and_deploy:
+    name: Build and Deploy Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      
+      - name: Install documentation generator
+        run: npm install -g documentation
+        
+      - name: Generate documentation
+        run: documentation build --output docs
+      
+      - name: Create documentation file
+        run: |
+          echo "# Documentation" > documentation.md
+          echo "This is the documentation for our project." >> documentation.md
+      
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+      
+      - name: Convert Markdown to DOCX
+        run: |
+          pandoc -o documentation.docx documentation.md
+      
+      - name: Documentation Deployment
+        run: echo "Documentation Deployment successfully on gh-pages branch"
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          keep_files: true

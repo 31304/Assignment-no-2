@@ -1,0 +1,53 @@
+name: Release Notes Generation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate_release_notes:
+    name: Generate Release Notes
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      
+      - name: Install git log parser
+        run: npm install --save-dev gitlog-parser
+      
+      - name: Generate Release Notes
+        run: |
+          echo "# Release Notes" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "## New Features" >> RELEASE_NOTES.md
+          echo "- Added support for feature X" >> RELEASE_NOTES.md
+          echo "- Implemented feature X" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "## Bug Fixes" >> RELEASE_NOTES.md
+          echo "- Fixed issue with feature y" >> RELEASE_NOTES.md
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "changes=true" >> $GITHUB_ENV
+          else
+            echo "changes=false" >> $GITHUB_ENV
+          fi
+      
+      - name: Commit and push release notes
+        if: env.check_changes == 'true'
+        
+        run: |
+          git config --global user.email "samiirshad1103.com"
+          git config --global user.name "31304"
+          git add RELEASE_NOTES.md
+          git commit -m "Generate release notes"
+          git push origin main

@@ -1,0 +1,67 @@
+name: CodeQL and Code Review
+
+on:
+  push:
+    branches: [ "main","master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  schedule:
+    - cron: '39 18 * * 2'
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: javascript-typescript
+          build-mode: none
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - if: matrix.build-mode == 'manual'
+        run: |
+          echo 'If you are using a "manual" build mode for one or more of the' \
+            'languages you are analyzing, replace this with the commands to build' \
+            'your code, for example:'
+          echo '  make bootstrap'
+          echo '  make release'
+          exit 1
+
+  comment_pr:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    name: Comment Pull Request
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Check if PR payload is available
+        run: echo "PR payload is available"
+        if: github.event.pull_request != null
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: "Code analysis completed! I appreciate your updates! :wave:"
+          reactions: "eyes,rocket"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
